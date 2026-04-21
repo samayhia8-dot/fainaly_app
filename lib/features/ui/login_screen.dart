@@ -1,6 +1,7 @@
 import 'package:fainaly_app/core/spacing/spacing.dart';
 import 'package:fainaly_app/core/themes/my_colors.dart';
 import 'package:fainaly_app/core/themes/my_fonts.dart';
+import 'package:fainaly_app/features/ui/widgets/NativeLanguageScreen.dart';
 import 'package:fainaly_app/features/ui/widgets/custom_auth_text_form_field.dart';
 import 'package:fainaly_app/features/ui/register_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController emailController=TextEditingController();
-  final TextEditingController passwordController=TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,26 +45,56 @@ class _LoginScreenState extends State<LoginScreen> {
                 verticalSpace(20),
                 CustomAuthTextFormField(
                     controller: emailController,
-                    label: "Email", hintText: "Enter your Email"),
+                    label: "Email",
+                    hintText: "Enter your Email"),
                 verticalSpace(10),
                 CustomAuthTextFormField(
                     controller: passwordController,
-                    label: "Password", hintText: "Enter your Password"),
+                    label: "Password",
+                    hintText: "Enter your Password"),
                 verticalSpace(20),
                 SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(onPressed: (){}, child: Text("Login"))),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => AccountSetupFlow(
+                              onComplete: () {
+                                Navigator.pushReplacementNamed(
+                                    context, '/home');
+                              },
+                            ),
+                          ),
+                        );
+                      },
+                      child: Text("Login"),
+                    )),
                 verticalSpace(20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Do Not Have An Account?',style: MyFonts.font16whitefaded,),
-                    SizedBox(width: 5,),
+                    Text(
+                      'Do Not Have An Account?',
+                      style: MyFonts.font16whitefaded,
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
                     GestureDetector(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => RegisterScreen(),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegisterScreen(),
+                              ));
                         },
-                        child: Text('Register',style: MyFonts.font16whitefaded.copyWith(color: MyColors.primaryColor),)),
+                        child: Text(
+                          'Register',
+                          style: MyFonts.font16whitefaded
+                              .copyWith(color: MyColors.primaryColor),
+                        )),
                   ],
                 )
               ],

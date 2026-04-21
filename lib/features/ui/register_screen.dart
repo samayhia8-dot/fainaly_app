@@ -1,6 +1,7 @@
 import 'package:fainaly_app/core/spacing/spacing.dart';
 import 'package:fainaly_app/core/themes/my_colors.dart';
 import 'package:fainaly_app/core/themes/my_fonts.dart';
+import 'package:fainaly_app/features/ui/widgets/NativeLanguageScreen.dart';
 import 'package:fainaly_app/features/ui/widgets/custom_auth_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,7 +57,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 verticalSpace(20),
                 SizedBox(
                     width: double.infinity,
-                    child: ElevatedButton(onPressed: (){}, child: Text("Register"))),
+                    child: ElevatedButton(onPressed: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => AccountSetupFlow(
+                            onComplete: () {
+                              Navigator.pushReplacementNamed(context, '/home');
+                            },
+                          ),
+                        ),
+                      );
+                    }, child: Text("Register"))),
                 verticalSpace(20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
