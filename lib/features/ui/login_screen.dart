@@ -5,7 +5,11 @@ import 'package:fainaly_app/features/ui/widgets/NativeLanguageScreen.dart';
 import 'package:fainaly_app/features/ui/widgets/custom_auth_text_form_field.dart';
 import 'package:fainaly_app/features/ui/register_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../auth/auth_bloc/auth_bloc.dart';
+import '../auth/data/models/user_data_class.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,86 +24,101 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: Text(
-            'Login',
-            style: MyFonts.font18white,
-          ),
-        ),
-        body: SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
-            child: Column(
-              children: [
-                verticalSpace(20),
-                SizedBox(
-                    width: 200.w,
-                    child: Image.asset('assets/images/login.png')),
-                Text(
-                  'For free, join now and start learning',
-                  style: MyFonts.font22white,
-                  textAlign: TextAlign.center,
-                ),
-                verticalSpace(20),
-                CustomAuthTextFormField(
-                    controller: emailController,
-                    label: "Email",
-                    hintText: "Enter your Email"),
-                verticalSpace(10),
-                CustomAuthTextFormField(
-                    controller: passwordController,
-                    label: "Password",
-                    hintText: "Enter your Password"),
-                verticalSpace(20),
-                SizedBox(
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => AccountSetupFlow(
-                              onComplete: () {
-                                Navigator.pushReplacementNamed(
-                                    context, '/home');
-                              },
-                            ),
-                          ),
-                        );
-                      },
-                      child: Text("Login"),
-                    )),
-                verticalSpace(20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Do Not Have An Account?',
-                      style: MyFonts.font16whitefaded,
-                    ),
-                    SizedBox(
-                      width: 5,
-                    ),
-                    GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => RegisterScreen(),
-                              ));
-                        },
-                        child: Text(
-                          'Register',
-                          style: MyFonts.font16whitefaded
-                              .copyWith(color: MyColors.primaryColor),
-                        )),
-                  ],
-                )
-              ],
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.status == AuthStatus.loginSuccess) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (_) => AccountSetupFlow(
+                onComplete: () {
+                  Navigator.pushReplacementNamed(context, '/home');
+                },
+              ),
             ),
-          ),
-        ));
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+            appBar: AppBar(
+              title: Text(
+                'Login',
+                style: MyFonts.font18white,
+              ),
+            ),
+            body: SizedBox(
+              width: double.infinity,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+                child: Column(
+                  children: [
+                    verticalSpace(20),
+                    SizedBox(
+                        width: 200.w,
+                        child: Image.asset('assets/images/login.png')),
+                    Text(
+                      'For free, join now and start learning',
+                      style: MyFonts.font22white,
+                      textAlign: TextAlign.center,
+                    ),
+                    verticalSpace(20),
+                    CustomAuthTextFormField(
+                        controller: emailController,
+                        label: "Email",
+                        hintText: "Enter your Email"),
+                    verticalSpace(10),
+                    CustomAuthTextFormField(
+                        controller: passwordController,
+                        label: "Password",
+                        hintText: "Enter your Password"),
+                    verticalSpace(20),
+                    SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            context.read<AuthBloc>().add(
+                                  LoginEvent(
+                                    UserDataClass(
+                                      email: emailController.text,
+                                      password: passwordController.text,
+                                    ),
+                                  ),
+                                );
+                          },
+                          child: Text("Login"),
+                        )),
+                    verticalSpace(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Do Not Have An Account?',
+                          style: MyFonts.font16whitefaded,
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RegisterScreen(),
+                                  ));
+                            },
+                            child: Text(
+                              'Register',
+                              style: MyFonts.font16whitefaded
+                                  .copyWith(color: MyColors.primaryColor),
+                            )),
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ));
+      },
+    );
   }
 }

@@ -1,7 +1,10 @@
 import 'package:fainaly_app/core/themes/my_colors.dart';
 import 'package:fainaly_app/core/widgets/on_boarding_screen.dart';
+import 'package:fainaly_app/features/auth/auth_bloc/auth_bloc.dart';
+import 'package:fainaly_app/features/auth/data/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'firebase_options.dart';
 
@@ -21,7 +24,13 @@ class MyApp extends StatelessWidget {
         designSize: const Size(375, 812),
         minTextAdapt: true,
         
-      child: MaterialApp(
+      child:
+      MultiBlocProvider(providers: [
+        BlocProvider(
+          create: (context) => AuthBloc(AuthService()),
+        ),
+      ], child:
+      MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Flikka',
         theme:ThemeData(
@@ -31,7 +40,7 @@ class MyApp extends StatelessWidget {
         ),
         home: OnBoardingScreen(),
       ),
-    );
+      )    );
 
   }
 }

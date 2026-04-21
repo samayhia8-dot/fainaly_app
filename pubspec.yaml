@@ -39,6 +39,9 @@ dependencies:
   flutter_screenutil: ^5.9.3
   smooth_page_indicator: ^2.0.1
   google_fonts: ^8.0.2
+  google_sign_in: ^7.2.0
+  bloc: ^9.2.0
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
    flutter_native_splash: ^2.4.0
