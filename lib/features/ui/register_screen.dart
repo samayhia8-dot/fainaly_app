@@ -27,20 +27,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
-
         if (state.status == AuthStatus.registerSuccess) {
+          print("Success!");
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) =>
-                  AccountSetupFlow(
-                    onComplete: () {
-                      Navigator.pushReplacementNamed(
-                          context, '/home');
-                    },
-                  ),
+              builder: (_) => AccountSetupFlow(
+                onComplete: () {
+                  Navigator.pushReplacementNamed(context, '/home');
+                },
+              ),
             ),
           );
+        }
+        if(state.status==AuthStatus.error){
+          print("Error in Register------------------------>");
+          print("Error in Register------------------------>");
         }
       },
       builder: (context, state) {
