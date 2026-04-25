@@ -1,5 +1,5 @@
 import 'package:fainaly_app/core/themes/my_colors.dart';
-import 'package:fainaly_app/core/widgets/on_boarding_screen.dart';
+import 'package:fainaly_app/core/spacing/widgets/on_boarding_screen.dart';
 import 'package:fainaly_app/features/auth/auth_bloc/auth_bloc.dart';
 import 'package:fainaly_app/features/auth/data/services/auth_service.dart';
 import 'package:flutter/material.dart';
